@@ -10,10 +10,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#ifdef _WIN32
 #include <windows.h>
+#else
+#include <unistd.h>
+#endif
 
 #include "FastMemcpy.h"
 
+#ifndef _WIN32
+static  uint64_t timeGetTime(void)    { struct timespec tm; clock_gettime(CLOCK_MONOTONIC, &tm); return (uint64_t)tm.tv_sec*1000000ull + tm.tv_nsec/1000; }
+#endif
 
 void benchmark(int dstalign, int srcalign, size_t size, int times)
 {
@@ -25,16 +32,20 @@ void benchmark(int dstalign, int srcalign, size_t size, int times)
 	char *ALIGN2 = (char*)(((64 - (LINEAR2 & 63)) & 63) + LINEAR2);
 	char *dst = (dstalign)? ALIGN1 : (ALIGN1 + 1);
 	char *src = (srcalign)? ALIGN2 : (ALIGN2 + 3);
+#ifdef _WIN32
 	DWORD t1, t2;
+#else
+	uint64_t t1, t2;
+#endif
 	int k;
 	
-	Sleep(100);
+	sleep(100);
 	t1 = timeGetTime();
 	for (k = times; k > 0; k--) {
 		memcpy(dst, src, size);
 	}
 	t1 = timeGetTime() - t1;
-	Sleep(100);
+	sleep(100);
 	t2 = timeGetTime();
 	for (k = times; k > 0; k--) {
 		memcpy_fast(dst, src, size);
@@ -68,14 +79,18 @@ void random_bench(int maxsize, int times)
 	static int random_offsets[0x10000];
 	static int random_sizes[0x8000];
 	unsigned int i, p1, p2;
+#ifdef _win32
 	DWORD t1, t2;
+#else
+	uint64_t t1, t2;
+#endif
 	for (i = 0; i < 0x10000; i++) {	// generate random offsets
 		random_offsets[i] = rand() % (10 * 1024 * 1024 + 1);
 	}
 	for (i = 0; i < 0x8000; i++) {	// generate random sizes
 		random_sizes[i] = 1 + rand() % maxsize;
 	}
-	Sleep(100);
+	sleep(100);
 	t1 = timeGetTime();
 	for (p1 = 0, p2 = 0, i = 0; i < times; i++) {
 		int offset1 = random_offsets[(p1++) & 0xffff];
@@ -84,7 +99,7 @@ void random_bench(int maxsize, int times)
 		memcpy(A + offset1, B + offset2, size);
 	}
 	t1 = timeGetTime() - t1;
-	Sleep(100);
+	sleep(100);
 	t2 = timeGetTime();
 	for (p1 = 0, p2 = 0, i = 0; i < times; i++) {
 		int offset1 = random_offsets[(p1++) & 0xffff];
