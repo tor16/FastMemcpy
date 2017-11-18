@@ -257,3 +257,65 @@ result(dst unalign, src unalign): memcpy_fast=599523ms memcpy=665385 ms
 benchmark random access:
 memcpy_fast=2743385ms memcpy=2849728ms
 */
+
+/*
+Tested in Dell Optiplex 7050SFF desktop, Ubuntu16.04, Linux 4.10.0-38-generic,
+gcc 5.4.0, CPU: Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz
+
+benchmark(size=32 bytes, times=16777216):
+result(dst aligned, src aligned): memcpy_fast=36517ms memcpy=40759 ms
+result(dst aligned, src unalign): memcpy_fast=35850ms memcpy=40335 ms
+result(dst unalign, src aligned): memcpy_fast=37174ms memcpy=40285 ms
+result(dst unalign, src unalign): memcpy_fast=36474ms memcpy=41329 ms
+
+benchmark(size=64 bytes, times=16777216):
+result(dst aligned, src aligned): memcpy_fast=36290ms memcpy=44864 ms
+result(dst aligned, src unalign): memcpy_fast=36230ms memcpy=44156 ms
+result(dst unalign, src aligned): memcpy_fast=65311ms memcpy=48575 ms
+result(dst unalign, src unalign): memcpy_fast=36395ms memcpy=47987 ms
+
+benchmark(size=512 bytes, times=8388608):
+result(dst aligned, src aligned): memcpy_fast=74848ms memcpy=48318 ms
+result(dst aligned, src unalign): memcpy_fast=79708ms memcpy=48678 ms
+result(dst unalign, src aligned): memcpy_fast=78697ms memcpy=52363 ms
+result(dst unalign, src unalign): memcpy_fast=79717ms memcpy=52188 ms
+
+benchmark(size=1024 bytes, times=4194304):
+result(dst aligned, src aligned): memcpy_fast=72423ms memcpy=42238 ms
+result(dst aligned, src unalign): memcpy_fast=77820ms memcpy=42348 ms
+result(dst unalign, src aligned): memcpy_fast=78111ms memcpy=44610 ms
+result(dst unalign, src unalign): memcpy_fast=105127ms memcpy=44698 ms
+
+benchmark(size=4096 bytes, times=524288):
+result(dst aligned, src aligned): memcpy_fast=37105ms memcpy=26054 ms
+result(dst aligned, src unalign): memcpy_fast=40146ms memcpy=26132 ms
+result(dst unalign, src aligned): memcpy_fast=70361ms memcpy=34507 ms
+result(dst unalign, src unalign): memcpy_fast=40138ms memcpy=68790 ms
+
+benchmark(size=8192 bytes, times=262144):
+result(dst aligned, src aligned): memcpy_fast=37638ms memcpy=23609 ms
+result(dst aligned, src unalign): memcpy_fast=39622ms memcpy=19791 ms
+result(dst unalign, src aligned): memcpy_fast=39921ms memcpy=32271 ms
+result(dst unalign, src unalign): memcpy_fast=39559ms memcpy=34470 ms
+
+benchmark(size=1048576 bytes, times=2048):
+result(dst aligned, src aligned): memcpy_fast=52125ms memcpy=41194 ms
+result(dst aligned, src unalign): memcpy_fast=78614ms memcpy=41211 ms
+result(dst unalign, src aligned): memcpy_fast=78948ms memcpy=77637 ms
+result(dst unalign, src unalign): memcpy_fast=49238ms memcpy=75619 ms
+
+benchmark(size=4194304 bytes, times=512):
+result(dst aligned, src aligned): memcpy_fast=79270ms memcpy=75565 ms
+result(dst aligned, src unalign): memcpy_fast=77294ms memcpy=104157 ms
+result(dst unalign, src aligned): memcpy_fast=101559ms memcpy=78571 ms
+result(dst unalign, src unalign): memcpy_fast=103164ms memcpy=82106 ms
+
+benchmark(size=8388608 bytes, times=256):
+result(dst aligned, src aligned): memcpy_fast=115543ms memcpy=111483 ms
+result(dst aligned, src unalign): memcpy_fast=113605ms memcpy=79576 ms
+result(dst unalign, src aligned): memcpy_fast=111091ms memcpy=95734 ms
+result(dst unalign, src unalign): memcpy_fast=110179ms memcpy=89143 ms
+
+benchmark random access:
+memcpy_fast=870612ms memcpy=695958ms
+*/
